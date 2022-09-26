@@ -351,48 +351,7 @@ Sketch $y(n)$.
 \\
 \solution The following code yields Fig. \ref{fig:xnyn}.
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#If using termux
-import subprocess
-import shlex
-#end if
-
-x=np.array([1.0,2.0,3.0,4.0,2.0,1.0])
-k = 20
-y = np.zeros(20)
-
-y[0] = x[0]
-y[1] = -0.5*y[0]+x[1]
-
-for n in range(2,k-1):
-	if n < 6:
-		y[n] = -0.5*y[n-1]+x[n]+x[n-2]
-	elif n > 5 and n < 8:
-		y[n] = -0.5*y[n-1]+x[n-2]
-	else:
-		y[n] = -0.5*y[n-1]
-print(y)
-
-#subplots
-plt.subplot(2, 1, 1)
-plt.stem(range(0,6),x)
-plt.title('Digital Filter Input-Output')
-plt.ylabel('$x(n)$')
-plt.grid()# minor
-
-plt.subplot(2, 1, 2)
-plt.stem(range(0,k),y)
-plt.xlabel('$n$')
-plt.ylabel('$y(n)$')
-plt.grid()# minor
-
-#If using termux
-plt.savefig('./figs/xnyn.pdf')
-plt.savefig('./xnyn.eps')
-subprocess.run(shlex.split("termux-open ./figs/xnyn.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section3.py
 \end{lstlisting}
 \begin{figure}[H]
 \begin{center}
@@ -548,36 +507,7 @@ It is bounded between (0, 4) and periodic with period $(2\pi)$ because in the be
   \end{align}
 The following code plots Fig. \ref{fig:dtft}.
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#if using termux
-import subprocess
-import shlex
-#end if
-
-#DTFT
-def H(z):
-	num = np.polyval([1,0,1],z**(-1))
-	den = np.polyval([0.5,1],z**(-1))
-	H = num/den
-	return H
-
-#Input and Output
-omega = np.linspace(-3*np.pi,3*np.pi,100)
-
-#subplots
-plt.plot(omega, abs(H(np.exp(1j*omega))))
-plt.title('Filter Frequency Response')
-plt.xlabel('$\omega$')
-plt.ylabel('$|H(e^{\jmath\omega})| $')
-plt.grid()# minor
-
-#if using termux
-plt.savefig('./figs/dtft.pdf')
-plt.savefig('./figs/dtft.eps')
-subprocess.run(shlex.split("termux-open ./figs/dtft.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section4.py
 \end{lstlisting}
 \begin{figure}[H]
 \centering
@@ -668,29 +598,7 @@ using \eqref{eq:anun} and \eqref{eq:z_trans_shift}.
 \solution Yes, it is bounded and convergent. We can clearly see the plot is remaining finite.
 The following code plots Fig. \ref{fig:hn}.
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#if using termux
-import subprocess
-import shlex
-#end if
-
-n = np.arange(10)
-fn=(-1/2)**n
-hn1=np.pad(fn, (0,2), 'constant', constant_values=(0))
-hn2=np.pad(fn, (2,0), 'constant', constant_values=(0))
-plt.stem(np.arange(12), hn1+hn2)
-plt.title('Filter Impulse Response')
-plt.xlabel('$n$')
-plt.ylabel('$h(n)$')
-plt.grid()# minor
-
-#if using termux
-plt.savefig('./figs/hn.pdf')
-plt.savefig('./figs/hn.eps')
-subprocess.run(shlex.split("termux-open ./figs/hn.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section5_1.py
 \end{lstlisting}
 \begin{figure}[!ht]
 \centering
@@ -793,34 +701,7 @@ h(n) &= \brak{-\frac{1}{2}}^{n}u(n) + \brak{-\frac{1}{2}}^{n-2}u(n-2)
 \end{align}
 %
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#If using termux
-import subprocess
-import shlex
-#end if
-
-k = 12
-h = np.zeros(k)
-h[0] = 1
-h[1] = -0.5*h[0]
-h[2] = -0.5*h[1] + 1
-
-for n in range(3,k-1):
-		h[n] = -0.5*h[n-1]
-
-#subplots
-plt.stem(range(0,k),h)
-plt.title('Impulse Response Definition')
-plt.xlabel('$n$')
-plt.ylabel('$h(n)$')
-plt.grid()# minor
-
-#If using termux
-plt.savefig('./figs/hndef.pdf')
-subprocess.run(shlex.split("termux-open ./figs/hndef.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section5_2.py
 \end{lstlisting}
 \begin{figure}[H]
 \centering
@@ -845,44 +726,7 @@ $y(n)$ in  Fig.
 \ref{fig:xnyn}. 
 %
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#If using termux
-import subprocess
-import shlex
-#end if
-
-n = np.arange(14)
-fn=(-1/2)**n
-hn1=np.pad(fn, (0,2), 'constant', constant_values=(0))
-hn2=np.pad(fn, (2,0), 'constant', constant_values=(0))
-h = hn1+hn2
-
-nh=len(h)
-x=np.array([1.0,2.0,3.0,4.0,2.0,1.0])
-nx = len(x)
-
-y = np.zeros(nx+nh-1)
-
-for k in range(0,nx+nh-1):
-	for n in range(0,nx):
-		if k-n >= 0 and k-n < nh:
-			y[k]+=x[n]*h[k-n]
-
-print(y)
-#plots
-plt.stem(range(0,nx+nh-1),y)
-plt.title('Filter Output using Convolution')
-plt.xlabel('$n$')
-plt.ylabel('$y(n)$')
-plt.grid()# minor
-
-#If using termux
-plt.savefig('./figs/ynconv.pdf')
-plt.savefig('./figs/ynconv.eps')
-subprocess.run(shlex.split("termux-open ./figs/ynconv.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section5_3.py
 \end{lstlisting}
 \begin{figure}[H]
 \centering
@@ -997,57 +841,7 @@ $y(n)$ in  Fig.
 \ref{fig:xnyn}. 
 %
 \begin{lstlisting}
-import numpy as np
-import matplotlib.pyplot as plt
-#If using termux
-import subprocess
-import shlex
-#end if
-
-N = 14
-n = np.arange(N)
-fn=(-1/2)**n
-hn1=np.pad(fn, (0,2), 'constant', constant_values=(0))
-hn2=np.pad(fn, (2,0), 'constant', constant_values=(0))
-h = hn1+hn2
-
-xtemp=np.array([1.0,2.0,3.0,4.0,2.0,1.0])
-x=np.pad(xtemp, (0,8), 'constant', constant_values=(0))
-
-X = np.zeros(N) + 1j*np.zeros(N)
-for k in range(0,N):
-	for n in range(0,N):
-		X[k]+=x[n]*np.exp(-1j*2*np.pi*n*k/N)
-		
-H = np.zeros(N) + 1j*np.zeros(N)
-for k in range(0,N):
-	for n in range(0,N):
-		H[k]+=h[n]*np.exp(-1j*2*np.pi*n*k/N)
-
-Y = np.zeros(N) + 1j*np.zeros(N)
-for k in range(0,N):
-	Y[k] = X[k]*H[k]
-
-y = np.zeros(N) + 1j*np.zeros(N)
-for k in range(0,N):
-	for n in range(0,N):
-		y[k]+=Y[n]*np.exp(1j*2*np.pi*n*k/N)
-
-#print(X)
-y = np.real(y)/N
-#plots
-plt.stem(range(0,N),y)
-plt.title('Filter Output using DFT')
-plt.xlabel('$n$')
-plt.ylabel('$y(n)$')
-plt.grid()# minor
-#
-#If using termux
-plt.savefig('./figs/yndft.pdf')
-plt.savefig('./figs/yndft.eps')
-subprocess.run(shlex.split("termux-open ./figs/yndft.pdf"))
-#else
-#plt.show()
+wget https://github.com/dnshkmr7/EE3900-22/blob/main/Assignment%201/codes/Section6.py
 \end{lstlisting}
 \begin{figure}[H]
 \centering
